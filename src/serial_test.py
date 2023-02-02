@@ -5,20 +5,29 @@ x = []
 y = []
 data = []
 with serial.Serial ('COMx', 115200) as s_port:
-    for lineline in s_port:
+    s_port.write (b'0.1\r\n') # Write bytes, not a string
+   
+   # every line through loop reads a new line
+   while True: # use an exception from last line to breakout
+        s_port.readline() # results in a string
+    
         try: 
             data = line.strip().split(',')
             float(data[0])
             float(data[1])
           
-        except ValueError:
-            continue # go to the next iteration of the loop
-        
-    s_port.write (b'something') # Write bytes, not a string
+        except ValueError, IndexError:
+            break # breaks out of loop
+        else:
+            x.appennd(float(data[0]))
+            y.append(float(data[1]))
+          
+            
 
 
-plt.xlabel(header[0])
-plt.ylabel(header[1])
+
+plt.xlabel('Time')
+plt.ylabel('Something')
 plt.scatter(x,y)
 plt.show()
 
