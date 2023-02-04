@@ -25,7 +25,9 @@ while continue_char == 'y':
       
     for _ in range(1000):
         motor_dvr.set_duty_cycle(controller.run())
-        utime.ticks_ms(10)
+        controller.times.append(utime.ticks_ms())
+        controller.motor_positions.append(encoder.read())
+        utime.sleep_ms(10)
         
     controller.print_response()
     
