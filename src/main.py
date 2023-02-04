@@ -23,10 +23,12 @@ while continue_char == 'y':
             )
         )
       
-    for _ in range(100):
+    for _ in range(1000):
         motor_dvr.set_duty_cycle(controller.run())
-        utime.ticks_ms(1)
-
+        utime.ticks_ms(10)
+        
+    controller.print_response()
+    
     continue_char = input(
         'Try new controller parameters (Enter y/n)? '
         )[0].lower()

@@ -12,7 +12,8 @@ class MotorDriver:
 
     def __init__ (
                   self, en_pin = pyb.Pin.board.PA10, in1pin = pyb.Pin.board.PB4, 
-                  in2pin = pyb.Pin.board.PB5, tim_num: int = 3):
+                  in2pin = pyb.Pin.board.PB5, tim_num: int = 3
+                  ):
         """! 
         Initializes selected pins and timer appropriately. Turns the motor off 
         for safety. 
