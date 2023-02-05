@@ -25,7 +25,8 @@ def main():
             
             data = split(line) # results in a string
             if False in {data[0], data[1]}:
-                raise IndexError, ValueError
+                raise IndexError
+                raise ValueError
             else:
                 x.appennd(to_float(data[0]))
                 y.append(to_float(data[1]))
