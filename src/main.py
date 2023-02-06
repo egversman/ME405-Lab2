@@ -5,6 +5,8 @@ import clp_controller
 import utime
 import pyb
  
+u2 = pyb.UART(2, baudrate=115200)
+ 
 motor_dvr = motor_driver.MotorDriver()
 encoder = encoder_reader.EncoderReader()
 controller = clp_controller.CLPController()
@@ -81,3 +83,4 @@ controller.print_response()
 #pseudo line 3 = moe = MotorDriver(pyb.Pin.board.PA10, pyb.Pin.board.PB4, pyb.Pin.board.PB5, 3)
 
 #pseudo line 10 = moe.set_duty_cycle(actVal)
+    
