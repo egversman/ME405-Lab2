@@ -1,8 +1,9 @@
 import motor_driver
 import encoder_reader
 import clp_controller
-import serial_test
+#import serial_test
 import utime
+import pyb
  
 motor_dvr = motor_driver.MotorDriver()
 encoder = encoder_reader.EncoderReader()
@@ -25,9 +26,10 @@ while continue_char == 'y':
         )
     
     for _ in range(1000):
-        motor_dvr.set_duty_cycle(controller.run())
+        meas_pos = encoder.read()
+        motor_dvr.set_duty_cycle(controller.run(controller.setpoint, meas_pos))
         controller.times.append(utime.ticks_ms())
-        controller.motor_positions.append(encoder.read())
+        controller.motor_positions.append(meas_pos)
         utime.sleep_ms(10)
         
     controller.print_response()

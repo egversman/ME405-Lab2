@@ -1,4 +1,5 @@
 import serial
+
 from matplotlib import pyplot as plt
 
 split = lambda line: line.strip().split(b',')[:2]
@@ -14,7 +15,7 @@ def process_data():
     y = []
     data = []
 
-    with serial.Serial ('COMxx', 115200) as ser:
+    with serial.Serial ('COM3', 115200) as ser:
         ser.write (b'0.1\r\n') # Write bytes, not a string
         # every line through loop reads a new line
         while True: # use an exception from last line to breakout
