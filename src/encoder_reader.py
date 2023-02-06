@@ -44,9 +44,8 @@ class EncoderReader:
         """!
         Return a string representation of the EncoderReader object for a user-friendly output.
         """
-        return f"EncoderReader(pin1={self.pin1}, pin2={self.pin2}, timer={self.timer}), current position: {self.curr_pos}"
+        return f"EncoderReader\n\tpin1 = {self.pin1},\n\tpin2 = {self.pin2},\n\ttimer = {self.timer}, and\n\tcurrent position = {self.curr_pos}"
 
-        
     def read (self):
         """!
         Returns the current position of the motor.
@@ -66,8 +65,6 @@ class EncoderReader:
         
         return self.curr_pos
     
-
-    
     def zero (self):
         """!
         Reads the current position of the motor and sets the count to 0 at that 
@@ -75,8 +72,7 @@ class EncoderReader:
         """
         self.prev_count = self.timer.counter()
         self.curr_pos = 0
-        
-        
+            
 if __name__ == "__main__":
     '''
     Test encoder class: Turn the motor by hand and run the motor under power. 
@@ -91,6 +87,7 @@ if __name__ == "__main__":
         )
     enc = EncoderReader(pyb.Pin.board.PC6, pyb.Pin.board.PC7, 8)
     moe.set_duty_cycle(-50)
+    
     while True:
         print(enc.read())
     

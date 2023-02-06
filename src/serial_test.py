@@ -9,7 +9,7 @@ def to_float(num: str):
         except:
             return False
 
-def main():
+def process_data():
     x = []
     y = []
     data = []
@@ -30,15 +30,17 @@ def main():
             else:
                 x.appennd(to_float(data[0]))
                 y.append(to_float(data[1]))
-            
+                
+    return x, y
+    
+if __name__ == "__main__":
+    x, y = process_data()
+    
     plt.plot(x, y)   
     plt.xlabel('Time [sec? msec?]')
     plt.ylabel('Motor Position [Encoder Ticks?]')
-    plt.scatter(x,y)
+    plt.scatter(x, y)
     plt.show()
-    
-if __name__ == "__main__":
-    main()
 
 # runs step response tests
     # send characters through USB serial port to Micropython board

@@ -9,20 +9,21 @@ encoder = encoder_reader.EncoderReader()
 controller = clp_controller.CLPController()
 continue_char = 'y'
 
+controller.set_setpoint(
+        input(
+            f'Enter setpoint (current setpoint is {controller.setpoint}): '
+            )
+        )
+
 while continue_char == 'y':
     encoder.zero()
     
     controller.set_Kp(
         input(
-            'Enter new Kp (current Kp is {controller.Kp}): '
+            f'Enter new Kp (current Kp is {controller.Kp}): '
             )
         )
-    controller.set_setpoint(
-        input(
-            'Enter new setpoint (current setpoint is {controller.setpoint}): '
-            )
-        )
-      
+    
     for _ in range(1000):
         motor_dvr.set_duty_cycle(controller.run())
         controller.times.append(utime.ticks_ms())
@@ -34,6 +35,8 @@ while continue_char == 'y':
     continue_char = input(
         'Try new controller parameters (Enter y/n)? '
         )[0].lower()
+    
+controller.print_response()
 
 
 #initialize motor driver
