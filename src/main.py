@@ -12,7 +12,7 @@ continue_char = 'y'
 
 controller.set_setpoint(
         input(
-            f'Enter setpoint (current setpoint is {controller.setpoint}): '
+            f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
             )
         )
 
