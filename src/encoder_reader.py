@@ -54,10 +54,10 @@ class EncoderReader:
         curr_count = self.timer.counter()
         difference = curr_count - self.prev_count
         
-        if (difference) > (65535 // 2):
+        if (difference) > (32768):
             difference -= 65535
             
-        if (difference) < -(65535 // 2):
+        if (difference) < -(32768):
             difference += 65535
         
         self.curr_pos += difference

@@ -26,10 +26,9 @@ def process_data():
             
             data = split(line) # results in a string
             if False in {data[0], data[1]}:
-                raise IndexError
-                raise ValueError
+                print("problem")
             else:
-                x.appennd(to_float(data[0]))
+                x.append(to_float(data[0]))
                 y.append(to_float(data[1]))
                 
     return x, y
