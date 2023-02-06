@@ -11,21 +11,21 @@ controller = clp_controller.CLPController()
 continue_char = 'y'
 
 controller.set_setpoint(
-        input(
+        float(input(
             f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
-            )
+            ))
         )
 
 while continue_char == 'y':
     encoder.zero()
     
     controller.set_Kp(
-        input(
+        float(input(
             f'Enter new Kp (current Kp is {controller.Kp}): '
-            )
+            ))
         )
     
-    for _ in range(1000):
+    for _ in range(500):
         meas_pos = encoder.read()
         motor_dvr.set_duty_cycle(controller.run(controller.setpoint, meas_pos))
         controller.times.append(utime.ticks_ms())
