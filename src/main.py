@@ -14,6 +14,8 @@ controller = clp_controller.CLPController()
 continue_char = 'y'
 
 controller.set_setpoint(
+        # input() may not work on UART, try u2.readline()
+        # must convert string to byte array or bytes object before write()
         float(input(
             f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
             ))
@@ -21,7 +23,7 @@ controller.set_setpoint(
 
 while continue_char == 'y':
     encoder.zero()
-    
+    start_time = utime.ticks_ms()
     controller.set_Kp(
         float(input(
             f'Enter new Kp (current Kp is {controller.Kp}): '
@@ -31,7 +33,7 @@ while continue_char == 'y':
     for _ in range(500):
         meas_pos = encoder.read()
         motor_dvr.set_duty_cycle(controller.run(controller.setpoint, meas_pos))
-        controller.times.append(utime.ticks_ms())
+        controller.times.append(utime.ticks_ms() - start_time)
         controller.motor_positions.append(meas_pos)
         utime.sleep_ms(10)
         
