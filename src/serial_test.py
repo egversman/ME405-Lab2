@@ -4,6 +4,10 @@ from matplotlib import pyplot as plt
 
 split = lambda line: line.strip().split(b',')[:2]
 
+# add user input lines
+# convert inputs
+# using the same serial info below, serial.write()
+
 def to_float(num: str):
         try:
             return float(num)
@@ -32,8 +36,8 @@ def process_data():
                 y.append(to_float(data[1]))
                 
     return x, y
-    
-if __name__ == "__main__":
+
+def generate_plot(x: list, y: list):
     x, y = process_data()
     
     plt.plot(x, y)   
@@ -41,6 +45,10 @@ if __name__ == "__main__":
     plt.ylabel('Motor Position [Encoder Ticks?]')
     plt.scatter(x, y)
     plt.show()
+    
+    
+if __name__ == "__main__":
+    generate_plot(*process_data())
 
 # runs step response tests
     # send characters through USB serial port to Micropython board

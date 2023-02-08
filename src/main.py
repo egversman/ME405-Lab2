@@ -21,6 +21,12 @@ controller.set_setpoint(
             ))
         )
 
+# while(not serial.any()):
+#    delay()
+# readline() setpoint
+# readline() KP
+
+
 while continue_char == 'y':
     encoder.zero()
     start_time = utime.ticks_ms()
