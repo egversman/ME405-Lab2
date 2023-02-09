@@ -1,7 +1,7 @@
 import motor_driver
 import encoder_reader
 import clp_controller
-#import serial_test
+# import serial_test
 import utime
 import pyb
  
@@ -13,13 +13,15 @@ encoder = encoder_reader.EncoderReader()
 controller = clp_controller.CLPController()
 continue_char = 'y'
 
-controller.set_setpoint(
-        # input() may not work on UART, try u2.readline()
-        # must convert string to byte array or bytes object before write()
-        float(input(
-            f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
-            ))
-        )
+# controller.set_setpoint(
+#         # input() may not work on UART, try u2.readline()
+#         # must convert string to byte array or bytes object before write()
+#         float(input(
+#             f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
+#             ))
+#         )
+u2.write(controller.setpoint.encode())
+controller.set_setpoint(u2.readline().decode)
 
 # while(not serial.any()):
 #    delay()
@@ -30,11 +32,14 @@ controller.set_setpoint(
 while continue_char == 'y':
     encoder.zero()
     start_time = utime.ticks_ms()
-    controller.set_Kp(
-        float(input(
-            f'Enter new Kp (current Kp is {controller.Kp}): '
-            ))
-        )
+    
+    u2.write(controller.Kp.encode())
+    controller.set_Kp(u2.readline().decode)
+    # controller.set_Kp(
+    #     float(input(
+    #         f'Enter new Kp (current Kp is {controller.Kp}): '
+    #         ))
+    #     )
     
     for _ in range(500):
         meas_pos = encoder.read()
@@ -43,11 +48,12 @@ while continue_char == 'y':
         controller.motor_positions.append(meas_pos)
         utime.sleep_ms(10)
         
-        u2.write(controller.print_response())
+    u2.write(controller.print_response())
     
-    continue_char = input(
-        'Try new controller parameters (Enter y/n)? '
-        )[0].lower()
+    # continue_char = input(
+    #     'Try new controller parameters (Enter y/n)? '
+    #     )[0].lower()
+    continue_char = u2.readline.decode()
     
 u2.write(controller.print_response())
 

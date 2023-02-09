@@ -20,7 +20,16 @@ def process_data():
     data = []
 
     with serial.Serial ('COM3', 115200) as ser:
-        ser.write (b'0.1\r\n') # Write bytes, not a string
+        prev_setpoint = ser.readline().decode()
+        setpoint = float(input(
+            f'Enter desired setpoint (default setpoint is {prev_setpoint}): '
+            ))
+        ser.write(setpoint.encode())
+        
+        prev_Kp = ser.readline().decode()
+        Kp = float(input(f'Enter new Kp (current Kp is {prev_Kp}): '))
+        ser.write(Kp.encode())
+        # ser.write (b'0.1\r\n') # Write bytes, not a string
         # every line through loop reads a new line
         while True: # use an exception from last line to breakout
             line = ser.readline()
@@ -35,6 +44,12 @@ def process_data():
                 x.append(to_float(data[0]))
                 y.append(to_float(data[1]))
                 
+            continue_char = input(
+                'Try new controller parameters (Enter y/n)? '
+                 )[0].lower()
+            ser.write(continue_char.encode())
+         
+    ser.close()       
     return x, y
 
 def generate_plot(x: list, y: list):
