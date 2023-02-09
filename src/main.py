@@ -27,7 +27,7 @@ setpoint = int(u2.readline().strip())
 kp = float(ser.readline())
 
 controller.set_setpoint(setpoint)
-controller.set_setpoint(kp)
+controller.set_kp(kp)
 
 
 encoder.zero()
