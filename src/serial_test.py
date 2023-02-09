@@ -45,11 +45,11 @@ def process_data():
                 y.append(to_float(data[1]))
                 
             continue_char = input(
-                'Try new controller parameters (Enter y/n)? '
+                'Try new Kp (Enter y/n)? '
                  )[0].lower()
             ser.write(continue_char.encode())
          
-    ser.close()       
+    ser.close()
     return x, y
 
 def generate_plot(x: list, y: list):
