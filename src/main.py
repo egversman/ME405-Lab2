@@ -4,42 +4,34 @@ import clp_controller
 # import serial_test
 import utime
 import pyb
- 
+
+
 u2 = pyb.UART(2, baudrate=115200)
 #u2.write when we want to write
  
-motor_dvr = motor_driver.MotorDriver()
-encoder = encoder_reader.EncoderReader()
-controller = clp_controller.CLPController()
-continue_char = 'y'
-
-# controller.set_setpoint(
-#         # input() may not work on UART, try u2.readline()
-#         # must convert string to byte array or bytes object before write()
-#         float(input(
-#             f'Enter desired setpoint (default setpoint is {controller.setpoint}): '
-#             ))
-#         )
-u2.write(controller.setpoint.encode())
-controller.set_setpoint(u2.readline().decode)
-
-# while(not serial.any()):
-#    delay()
-# readline() setpoint
-# readline() KP
+motor_dvr = motor_driver.MotorDriver() # creates a working motor
+encoder = encoder_reader.EncoderReader() # creates a working encoder
+controller = clp_controller.CLPController() # creates a working controller
+#continue_char = 'y'
 
 
-while continue_char == 'y':
+
+u2.write(str(controller.setpoint).encode())
+#controller.set_setpoint(u2.readline().decode)
+
+
+while (not u2.any()):
+    pyb.delay(10)
+
+setpoint = int(u2.readline().strip())
+kp = float(ser.readline())
+
+controller.set_setpoint(setpoint)
+controller.set_setpoint(kp)
+
+
     encoder.zero()
-    start_time = utime.ticks_ms()
-    
-    u2.write(controller.Kp.encode())
-    controller.set_Kp(u2.readline().decode)
-    # controller.set_Kp(
-    #     float(input(
-    #         f'Enter new Kp (current Kp is {controller.Kp}): '
-    #         ))
-    #     )
+    start_time = utime.ticks_ms() 
     
     for _ in range(500):
         meas_pos = encoder.read()
@@ -48,11 +40,9 @@ while continue_char == 'y':
         controller.motor_positions.append(meas_pos)
         utime.sleep_ms(10)
         
-    u2.write(controller.print_response())
+    u2.write(controller.print_response().encode())
     
-    # continue_char = input(
-    #     'Try new controller parameters (Enter y/n)? '
-    #     )[0].lower()
+
     continue_char = u2.readline.decode()
     
 u2.write(controller.print_response())
