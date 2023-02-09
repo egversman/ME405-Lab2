@@ -24,10 +24,10 @@ while (not u2.any()):
     pyb.delay(10)
 
 setpoint = int(u2.readline().strip())
-kp = float(ser.readline())
+kp = float(u2.readline())
 
 controller.set_setpoint(setpoint)
-controller.set_kp(kp)
+controller.set_Kp(kp)
 
 
 encoder.zero()
@@ -36,11 +36,11 @@ start_time = utime.ticks_ms()
 for _ in range(500):
     meas_pos = encoder.read()
     motor_dvr.set_duty_cycle(controller.run(controller.setpoint, meas_pos))
-    controller.times.append(utime.ticks_ms() - start_time)
-    controller.motor_positions.append(meas_pos)
+    encoder.times.append(utime.ticks_ms() - start_time)
+    encoder.motor_positions.append(meas_pos)
     utime.sleep_ms(10)
     
-u2.write(controller.print_response().encode())
+u2.write(controller.print_response().encode()) #error with nonetype here
     
 
    # continue_char = u2.readline.decode()
