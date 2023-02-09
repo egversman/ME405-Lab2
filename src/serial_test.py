@@ -47,7 +47,7 @@ if __name__ == "__main__":
     b_setpoint = str(input('Enter desired setpoint: ')).encode()
     b_Kp = str(input('Enter desired Kp: ')).encode()
 
-    with serial.Serial('COM3', 115200) as ser:
+    with serial.Serial('COM4', 115200) as ser:
         ser.write(b_setpoint + b"\r\n")
         ser.write(b_Kp + b"\r\n")
     print('Controller parameters sent')
