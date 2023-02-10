@@ -19,8 +19,8 @@ def process_data():
         for line in ser:
             try:
                 data = line.readline().strip().split(b',')
-                float(data[0])
-                float(data[1])
+                to_float(data[0])
+                to_float(data[1])
 
             except ValueError:
                 continue  # go to the next iteration of the loop

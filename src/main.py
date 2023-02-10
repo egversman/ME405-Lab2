@@ -6,7 +6,7 @@ import utime
 import pyb
 
 
-u2 = pyb.UART(2, baudrate=115200)
+u2 = pyb.UART(2, baudrate=115200, timeout = 10)
 #u2.write when we want to write
  
 motor_dvr = motor_driver.MotorDriver() # creates a working motor
@@ -17,7 +17,7 @@ controller = clp_controller.CLPController() # creates a working controller
 
 
 u2.write(str(controller.setpoint).encode())
-#controller.set_setpoint(u2.readline().decode)
+
 
 
 while (not u2.any()):
@@ -31,8 +31,6 @@ controller.set_Kp(kp)
 
 
 encoder.zero()
-t = []
-y = []
 start_time = utime.ticks_ms() 
     
 for _ in range(5000):
@@ -42,9 +40,9 @@ for _ in range(5000):
     controller.times.append(utime.ticks_ms() - start_time)
     controller.motor_positions.append(meas_pos)
     
-    utime.sleep_ms(1000)
+    utime.sleep_ms(10000)
     
-print(u2.write(controller.print_response().encode()))
+u2.write(controller.print_response().encode('utf-8')) #something up over here
     
     
 
