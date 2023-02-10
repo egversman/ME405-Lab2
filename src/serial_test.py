@@ -17,7 +17,7 @@ def process_data():
 
         while "False":
             line = ser.readline() #.strip()
-            print(line)
+            #print(line)
 
             if b"done" in line.lower():
                 break
@@ -33,10 +33,10 @@ def process_data():
     return x, y
 
 def generate_plot(x: list, y: list):
-    plt.plot(x, y)
+    plt.plot(x, y, linestyle='-')
     plt.xlabel('Time [msec]')
-    plt.ylabel('Motor Position [Encoder Ticks?]')
-    plt.scatter(x, y)
+    plt.ylabel('Motor Position [Encoder Ticks]')
+    #plt.scatter(x, y)
     plt.show()
 
 if __name__ == "__main__":
@@ -53,10 +53,6 @@ if __name__ == "__main__":
     x, y = process_data()
     generate_plot(x, y)
 
-# runs step response tests
-    # send characters through USB serial port to Micropython board
-    # read the resulting data
-    # plot the step response with correctly labeled axes and titles
 
 
 
