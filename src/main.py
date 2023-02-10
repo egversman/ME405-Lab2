@@ -31,20 +31,21 @@ controller.set_Kp(kp)
 
 
 encoder.zero()
+t = []
+y = []
 start_time = utime.ticks_ms() 
     
-for _ in range(500):
+for _ in range(5000):
     meas_pos = encoder.read()
     motor_dvr.set_duty_cycle(controller.run(controller.setpoint, meas_pos))
-    encoder.times.append(utime.ticks_ms() - start_time)
-    encoder.motor_positions.append(meas_pos)
-    utime.sleep_ms(10)
     
-u2.write(controller.print_response().encode()) #error with nonetype here
+    controller.times.append(utime.ticks_ms() - start_time)
+    controller.motor_positions.append(meas_pos)
     
-
-   # continue_char = u2.readline.decode()
+    utime.sleep_ms(1000)
     
-u2.write(controller.print_response())
+print(u2.write(controller.print_response().encode()))
+    
+    
 
 
