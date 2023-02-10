@@ -1,8 +1,9 @@
 """! @file main.py
 The file controls a 12V DC motor using a proportional controller. The script
-creates motor driver, encoder reader, and controller objects, and sets the setpoint and controller constant (Kp) through
-UART serial communication with a PC. The encoder zero position is recorded, and the control loop starts, reading the
-position and applying the calculated duty cycle to the motor.
+creates motor driver, encoder reader, and controller objects, and sets the 
+setpoint and controller constant (Kp) through UART serial communication with a 
+PC. The encoder zero position is recorded, and the control loop starts, reading 
+the position and applying the calculated duty cycle to the motor.
 """
 
 import motor_driver
