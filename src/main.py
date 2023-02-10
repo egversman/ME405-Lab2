@@ -1,3 +1,7 @@
+"""! @file main.py
+
+"""
+
 import motor_driver
 import encoder_reader
 import clp_controller
@@ -25,16 +29,15 @@ start_time = utime.ticks_ms()
 for i in range(250):
     meas_pos = encoder.read()
     motor_dvr.set_duty_cycle(
-        controller.run(
-            int(controller.setpoint.decode()), meas_pos)
+        controller.run(int(controller.setpoint.decode()), meas_pos)
         )
     controller.times.append(utime.ticks_ms() - start_time)
     controller.motor_positions.append(meas_pos)
     
     u2.write(
-        str(
-            controller.times[i]).encode() + b", " + str(
-                controller.motor_positions[i]).encode() + b"\r\n")
+        str(controller.times[i]).encode() + b", " 
+        + str(controller.motor_positions[i]).encode() + b"\r\n"
+        )
     utime.sleep_ms(50)
     
 u2.write(b"Done!\r\n")    

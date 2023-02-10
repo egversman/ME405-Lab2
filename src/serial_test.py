@@ -1,15 +1,41 @@
+"""!
+@file serial_test.py
+This file is used to test the functionality of a serial connection. The user 
+inputs a desired setpoint and Kp value and sends it to the connected device. The 
+device returns the motor position data which is then processed and plotted. 
+"""
+
 import serial
 from matplotlib import pyplot as plt
 
+"""!
+Splits the input line into two parts and returns them as a list. 
+@param line: line of data to be split
+@return: list of two values split from the line
+"""
 split = lambda line: line.strip().split(b',')[:2]
 
+
 def to_float(num: str):
+    """!
+    Converts a string to a float, or returns False if it is not possible.
+    @param num string to be converted to float
+    @return float value of the string, or False if the conversion is not 
+    possible
+    """
     try:
         return float(num)
     except:
         return False
 
-def process_data(): #comment2
+
+def process_data():
+    """!
+    Reads motor position data from the serial connection and returns the time 
+    and position values as two separate lists.
+    @return tuple of two lists, the first being time values and the second being 
+            motor position values
+    """
     x = []
     y = []
     data = []
@@ -33,6 +59,11 @@ def process_data(): #comment2
     return x, y
 
 def generate_plot(x: list, y: list):
+    """!
+    Generates a plot of motor position vs. time based on the input data.
+    @param x list of time values
+    @param y list of motor position values
+    """
     plt.plot(x, y, linestyle='-')
     plt.xlabel('Time [msec]')
     plt.ylabel('Motor Position [Encoder Ticks]')
@@ -49,7 +80,6 @@ if __name__ == "__main__":
         ser.write(b_setpoint + b"\r\n")
         ser.write(b_Kp + b"\r\n")
 
-        # print('Controller parameters sent')
     x, y = process_data()
     generate_plot(x, y)
 
