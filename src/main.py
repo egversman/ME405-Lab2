@@ -17,9 +17,9 @@ u2 = pyb.UART(2, baudrate=115200, timeout = 10000)
 while(not u2.any()):
     pass
 
-motor_dvr = motor_driver.MotorDriver() # creates a working motor
-encoder = encoder_reader.EncoderReader() # creates a working encoder
-controller = clp_controller.CLPController() # creates a working controller
+motor_dvr = motor_driver.MotorDriver()
+encoder = encoder_reader.EncoderReader()
+controller = clp_controller.CLPController()
 
 u2.write(str(controller.setpoint).encode())
 setpoint = u2.readline() 
