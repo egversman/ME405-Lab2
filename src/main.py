@@ -12,7 +12,7 @@ import clp_controller
 import utime
 import pyb
 
-u2 = pyb.UART(2, baudrate=115200, timeout = 10000)
+u2 = pyb.UART(2, baudrate=115200, timeout = 10)
 
 while(not u2.any()):
     pass
@@ -21,31 +21,45 @@ motor_dvr = motor_driver.MotorDriver() # creates a working motor
 encoder = encoder_reader.EncoderReader() # creates a working encoder
 controller = clp_controller.CLPController() # creates a working controller
 
+motor_dvr.enable()
+
 u2.write(str(controller.setpoint).encode())
-setpoint = u2.readline() 
+setpoint = u2.readline()
+#setpoint = 5000
+print('setpoint =', setpoint)
 kp = float(u2.readline())
+print('kp =', kp)
 controller.set_setpoint(setpoint)
 controller.set_Kp(kp)
 
 encoder.zero()
 start_time = utime.ticks_ms()
+time = 0
 
-for i in range(250):
+print(setpoint.decode())
+
+
+i = 0
+
+while time < 3000:
+    time = utime.ticks_ms() - start_time
     meas_pos = encoder.read()
     motor_dvr.set_duty_cycle(
         controller.run(int(controller.setpoint.decode()), meas_pos)
         )
-    controller.times.append(utime.ticks_ms() - start_time)
+    controller.times.append(time)
     controller.motor_positions.append(meas_pos)
     
     u2.write(
         str(controller.times[i]).encode() + b", " 
         + str(controller.motor_positions[i]).encode() + b"\r\n"
         )
-    utime.sleep_ms(50)
-    
+    i+=1
+    utime.sleep_ms(10)
+
+motor_dvr.disable()
 u2.write(b"Done!\r\n")    
-motor_dvr.set_duty_cycle(0)
+
 
     
 
